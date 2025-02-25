@@ -145,3 +145,29 @@ pub fn _print(args: fmt::Arguments) {
     use core::fmt::Write;
     WRITER.lock().write_fmt(args).unwrap();
 }
+
+// Test case to verify that "println" works without panicking
+#[test_case]
+fn test_println_simple() {
+    println!("test_println_simple output");
+}
+
+// Test case that no panic occurs even if many lines are printed and lines are shifted off the screen
+#[test_case]
+fn test_println_many() {
+    for _ in 0..200 {
+        println!("test_println_many output")
+    }
+}
+
+// Test case to verify that the printed lines really appear on the screen
+#[test_case]
+fn test_println_output() {
+    let s = "Some test string that fits on a single line.";
+    println!("{}", s);
+
+    for (i, c) in s.chars().enumerate() {
+        let screen_char = WRITER.lock().buffer.chars[BUFFER_HEIGHT - 2][i].read();
+        assert_eq!(char::from(screen_char.ascii_character), c);
+    }
+}
