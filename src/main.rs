@@ -5,7 +5,6 @@
 #![reexport_test_harness_main = "test_main"]
 
 use core::panic::PanicInfo;
-use dolph_os::println;
 
 // mod serial;
 // mod vga_buffer;
